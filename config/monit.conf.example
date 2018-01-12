@@ -1,0 +1,22 @@
+# Watch your rails app & sidekiq process and restart it automatically
+# Usage:
+# `sudo apt-get install monit -y`
+# `cp monit.conf.example /etc/monit/conf.d/`
+# `service monit restart`
+check process weapp101_rails_puma
+  with pidfile /data/www/weapp101_rails/shared/tmp/pids/puma.pid
+  start program = "/bin/sh -c 'cd /data/www/weapp101_rails/current; PATH=bin:/home/ruby/.rbenv/shims:/home/ruby/.rbenv/bin:$PATH LC_ALL=en_US.UTF-8 RAILS_ENV="production" bundle exec puma -q -d -e production -C config/puma.rb'" as uid ruby and gid ruby with timeout 90 seconds
+  stop program = "/bin/sh -c 'cd /data/www/weapp101_rails/current; PATH=bin:/home/ruby/.rbenv/shims:/home/ruby/.rbenv/bin:$PATH LC_ALL=en_US.UTF-8 RAILS_ENV="production" bundle exec pumactl -F /data/www/weapp101_rails/current/config/puma.rb stop'" as uid ruby and gid ruby with timeout 90 seconds
+  group weapp101_rails
+
+check process weapp101_rails_sidekiq
+  with pidfile /data/www/weapp101_rails/shared/tmp/pids/sidekiq.pid
+  start program = "/bin/sh -c 'cd /data/www/weapp101_rails/current; PATH=bin:/home/ruby/.rbenv/shims:/home/ruby/.rbenv/bin:$PATH LC_ALL=en_US.UTF-8 RAILS_ENV="production" bundle exec sidekiq -d -e production  -C /data/www/weapp101_rails/current/config/sidekiq.yml -i 0 -P /data/www/weapp101_rails/shared/tmp/pids/sidekiq.pid -L /data/www/weapp101_rails/current/log/sidekiq.log'" as uid ruby and gid ruby with timeout 90 seconds
+  stop program = "/bin/sh -c 'cd /data/www/weapp101_rails/current; PATH=bin:/home/ruby/.rbenv/shims:/home/ruby/.rbenv/bin:$PATH LC_ALL=en_US.UTF-8 RAILS_ENV="production" bundle exec sidekiqctl stop /data/www/weapp101_rails/shared/tmp/pids/sidekiq.pid 11'" as uid ruby and gid ruby with timeout 90 seconds
+  group weapp101_rails
+
+#check process weapp101_rails_clockwork
+#  with pidfile /data/www/weapp101_rails/shared/tmp/pids/clockworkd.clock.pid
+#  start program = "/bin/sh -c 'cd /data/www/weapp101_rails/current; PATH=bin:/home/ruby/.rbenv/shims:/home/ruby/.rbenv/bin:$PATH LC_ALL=en_US.UTF-8 RAILS_ENV=production bundle exec clockworkd -c /data/www/weapp101_rails/current/config/clock.rb -i clock -d /data/www/weapp101_rails/current --pid-dir /data/www/weapp101_rails/shared/tmp/pids --log --log-dir /data/www/weapp101_rails/shared/log start'" as uid ruby and gid ruby with timeout 90 seconds
+#  stop program = "/bin/sh -c 'cd /data/www/weapp101_rails/current; PATH=bin:/home/ruby/.rbenv/shims:/home/ruby/.rbenv/bin:$PATH LC_ALL=en_US.UTF-8 RAILS_ENV=production bundle exec clockworkd -c /data/www/weapp101_rails/current/config/clock.rb -i clock -d /data/www/weapp101_rails/current --pid-dir /data/www/weapp101_rails/shared/tmp/pids --log --log-dir /data/www/weapp101_rails/shared/log stop'" as uid ruby and gid ruby with timeout 90 seconds
+#  group weapp101_rails
