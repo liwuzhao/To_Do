@@ -1,0 +1,37 @@
+doctype html
+html
+  head
+    meta charset='utf-8'
+    meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"
+    meta name="renderer" content="webkit"
+    meta http-equiv="cleartype" content="on"
+    meta name="HandheldFriendly" content="True"
+    meta name="MobileOptimized" content="320"
+    title
+      | 登录 - 控制台
+    = csrf_meta_tags
+    = action_cable_meta_tag
+    = stylesheet_link_tag    'admin', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'admin', 'data-turbolinks-track': 'reload'
+    = favicon_link_tag
+  body.hold-transition.login-page
+    main
+      section.content-messages
+        = render 'shared/admin/flash_messages'
+      section.content
+        .login-box
+          .login-logo
+            span
+              | 控制台
+          .login-box-body
+            = form_tag admin_login_path do
+              .form-group.has-feedback
+                = text_field_tag :name, nil, placeholder: '用户名', class: 'form-control'
+                i.fa.fa-user.form-control-feedback
+              .form-group.has-feedback
+                = password_field_tag :password, nil, placeholder: '密码', class: 'form-control'
+                i.fa.fa-lock.form-control-feedback
+              .row
+                .col-xs-4.col-xs-offset-8
+                  = submit_tag '登录', class: 'btn btn-primary btn-block btn-flat'
