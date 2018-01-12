@@ -48,6 +48,11 @@ gem 'mina-multistage', '~> 1.0.3', require: false
 gem 'mina-sidekiq', '~> 1.0.3', require: false
 gem 'mina-logs', '~> 1.1.0', require: false
 gem 'lograge'
+
+gem 'adminlte-rails', github: '80percent/adminlte-rails', tag: 'v2.3.11'
+gem 'active_link_to'
+gem 'bcrypt'
+
 group :development do
   gem 'rails_apps_testing'
 end

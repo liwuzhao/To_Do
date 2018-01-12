@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/80percent/adminlte-rails.git
+  revision: 94834027343e0d5a1093dcf1e187829034227e2c
+  tag: v2.3.11
+  specs:
+    adminlte-rails (2.3.11)
+      bootstrap-sass (~> 3.3.7)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -24,6 +32,9 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    active_link_to (1.0.5)
+      actionpack
+      addressable
     activejob (5.1.4)
       activesupport (= 5.1.4)
       globalid (>= 0.3.6)
@@ -43,6 +54,7 @@ GEM
     arel (8.0.0)
     autoprefixer-rails (7.2.4)
       execjs
+    bcrypt (3.1.11)
     bindex (0.5.0)
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
@@ -293,6 +305,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_link_to
+  adminlte-rails!
+  bcrypt
   bootstrap-sass
   browser_warrior
   byebug
