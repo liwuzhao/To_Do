@@ -1,0 +1,36 @@
+doctype html
+html
+  head
+    meta charset='utf-8'
+    meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"
+    meta name="renderer" content="webkit"
+    meta http-equiv="cleartype" content="on"
+    meta name="HandheldFriendly" content="True"
+    meta name="MobileOptimized" content="320"
+    - if content_for?(:title)
+      title = format("%s - 控制台", yield(:title))
+    - else
+      title 控制台
+    = csrf_meta_tags
+    = action_cable_meta_tag
+    = content_for?(:head) ? yield(:head) : ''
+    = stylesheet_link_tag    'admin', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'admin', 'data-turbolinks-track': 'reload'
+    = favicon_link_tag
+  body.hold-transition.skin-blue.sidebar-mini
+    main.wrapper
+      = render 'shared/admin/header'
+      = render 'shared/admin/sidebar'
+      .content-wrapper
+        section.content-messages
+          = render 'shared/admin/flash_messages'
+        section.content-header
+          h1
+            - if content_for? :page_title
+              = yield :page_title
+              small
+                - if content_for? :page_subtitle
+                  = yield :page_subtitle
+        section.content
+          = yield
