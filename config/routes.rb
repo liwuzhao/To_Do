@@ -8,8 +8,15 @@ Rails.application.routes.draw do
     post 'login', to: 'sessions#create'
     delete 'logout', to: 'sessions#destroy', as: :logout
     resource :account, only: [:edit, :update]
-
+    resources :users, only: [:index, :show]
+    
     root to: 'dashboard#index'
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :sessions, only: [:create]
+    end
   end
 
   mount Sidekiq::Web => '/sidekiq'

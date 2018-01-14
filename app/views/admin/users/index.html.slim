@@ -1,0 +1,47 @@
+- content_for :page_title, '用户管理'
+
+.box.box-primary
+  .box-header.with-border
+    h3.box-title
+      = render 'search'
+  .box-body.table-responsive
+    table.table.table-hover
+      thead
+        tr
+          th 头像
+          th ID
+          th 昵称
+          th 性别
+          th 创建时间
+          th.actions 操作
+      tbody
+        - @users.each do |user|
+          tr
+            td
+              - if user.avatar_url
+                .user-avatar[data-toggle="modal" data-target="#user-avatar-modal-#{user.id}"]
+                  = image_tag user.avatar_url
+                .modal.fade[id="user-avatar-modal-#{user.id}"]
+                  .modal-dialog
+                    .modal-content
+                      .modal-header
+                        .button.close[type="button" data-dismiss="modal"]
+                          span
+                            |×
+                        h4.modal-title
+                          = user.nick_name
+                      .modal-body
+                        .user-avatar-original
+                          = image_tag user.avatar_url
+            td = user.id
+            td = user.nick_name
+            td = user.gender
+            td = user.created_at
+            td.actions
+              = link_to '详情', admin_user_path(user), class: 'action'
+  .box-footer
+    .row
+      .col-sm-5
+        | 用户总数：#{@users_count}
+      .col-sm-7
+        = paginate @users

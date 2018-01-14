@@ -1,0 +1,19 @@
+- content_for :page_title, '用户管理'
+
+.box.box-primary
+  .box-header.with-border
+    h3.box-title
+      | 用户详情
+  .box-body
+    dl.dl-horizontal
+      dt 头像:
+      dd.user-avatar
+        = tag('img', src: @user.avatar_url) if @user.avatar_url.present?
+      dt 姓名:
+      dd = @user.nick_name
+      dt 创建时间:
+      dd = @user.created_at
+      dt 更新时间:
+      dd = @user.updated_at
+  .box-footer.actions
+    = link_to '返回', admin_users_path, class: 'btn btn-default action'

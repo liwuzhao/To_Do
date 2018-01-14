@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180112075431) do
+ActiveRecord::Schema.define(version: 20180114055422) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,4 +23,49 @@ ActiveRecord::Schema.define(version: 20180112075431) do
     t.index ["name"], name: "index_admins_on_name", unique: true
   end
 
+  create_table "identities", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "uid"
+    t.string "provider"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["uid", "provider"], name: "index_identities_on_uid_and_provider", unique: true
+    t.index ["user_id"], name: "index_identities_on_user_id"
+  end
+
+  create_table "profiles", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "nick_name"
+    t.integer "gender", default: 0
+    t.string "language"
+    t.string "city"
+    t.string "province"
+    t.string "country"
+    t.string "avatar_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_profiles_on_user_id"
+  end
+
+  create_table "sessions", force: :cascade do |t|
+    t.bigint "identity_id"
+    t.string "sid"
+    t.string "session_key"
+    t.datetime "expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["identity_id"], name: "index_sessions_on_identity_id"
+    t.index ["sid"], name: "index_sessions_on_sid", unique: true
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "union_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["union_id"], name: "index_users_on_union_id", unique: true
+  end
+
+  add_foreign_key "identities", "users"
+  add_foreign_key "profiles", "users"
+  add_foreign_key "sessions", "identities"
 end
