@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180114055422) do
+ActiveRecord::Schema.define(version: 20180206164154) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,14 @@ ActiveRecord::Schema.define(version: 20180114055422) do
     t.datetime "updated_at", null: false
     t.index ["uid", "provider"], name: "index_identities_on_uid_and_provider", unique: true
     t.index ["user_id"], name: "index_identities_on_user_id"
+  end
+
+  create_table "lists", force: :cascade do |t|
+    t.bigint "user_id"
+    t.datetime "list_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_lists_on_user_id"
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -58,6 +66,14 @@ ActiveRecord::Schema.define(version: 20180114055422) do
     t.index ["sid"], name: "index_sessions_on_sid", unique: true
   end
 
+  create_table "should_dos", force: :cascade do |t|
+    t.bigint "list_id"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["list_id"], name: "index_should_dos_on_list_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "union_id"
     t.datetime "created_at", null: false
@@ -66,6 +82,8 @@ ActiveRecord::Schema.define(version: 20180114055422) do
   end
 
   add_foreign_key "identities", "users"
+  add_foreign_key "lists", "users"
   add_foreign_key "profiles", "users"
   add_foreign_key "sessions", "identities"
+  add_foreign_key "should_dos", "lists"
 end
