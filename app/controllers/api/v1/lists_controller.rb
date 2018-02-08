@@ -1,7 +1,8 @@
-class API::V1::ListController < API::VI::BaseController
+class API::V1::ListsController < API::V1::BaseController
+  skip_before_action :ensure_authenticated_user
 
   def index
-    @lists = @current_user.lists
+    @lists = List.all
   end
 
   def create

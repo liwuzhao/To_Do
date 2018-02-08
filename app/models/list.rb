@@ -1,5 +1,5 @@
 class List < ApplicationRecord
   belongs_to :user
 
-  has_many :content
+  has_many :should_do
 end

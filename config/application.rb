@@ -35,6 +35,8 @@ module Weapp101Rails
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    config.paths.add 'lib', eager_load: true 
+    config.paths.add 'lib', eager_load: true
   end
+  Time::DATE_FORMATS.merge!(:default => '%Y/%m/%d', :ymd => '%Y/%m/%d')
+
 end

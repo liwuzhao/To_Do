@@ -9,13 +9,14 @@ Rails.application.routes.draw do
     delete 'logout', to: 'sessions#destroy', as: :logout
     resource :account, only: [:edit, :update]
     resources :users, only: [:index, :show]
-    
+
     root to: 'dashboard#index'
   end
 
-  namespace :api do
+  namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :sessions, only: [:create]
+      resources :lists, only: [:index, :create]
     end
   end
 
