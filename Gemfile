@@ -49,6 +49,7 @@ gem 'mina-sidekiq', '~> 1.0.3', require: false
 gem 'mina-logs', '~> 1.1.0', require: false
 gem 'lograge'
 gem 'ransack'
+gem 'awesome_rails_console'
 
 
 gem 'adminlte-rails', github: '80percent/adminlte-rails', tag: 'v2.3.11'

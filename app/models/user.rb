@@ -10,5 +10,5 @@ class User < ApplicationRecord
   PROFILE_ATTRIBUTES = %w(nick_name gender language city province country avatar_url)
   delegate *PROFILE_ATTRIBUTES, to: :profile, allow_nil: true
 
-  has_many :lists
+  has_many :lists, dependent: :destroy
 end
