@@ -5,6 +5,9 @@ json.user do
   json.extract! list.user, :nick_name, :avatar_url
 end
 
-json.should_do do
-  json.extract! list.should_do, :content
+json.should_dos do
+  json.array! list.should_dos do |should_do|
+    json.id should_do.id
+    json.content should_do.content
+  end
 end

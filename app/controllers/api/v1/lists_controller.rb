@@ -23,8 +23,15 @@ class API::V1::ListsController < API::V1::BaseController
     end
 
     def assign_should_do(list)
-      should_do = list.should_do || ShouldDo.new
-      should_do.assign_attributes(params[:list][:should_do].permit(:content))
-      list.should_do = should_do
+      params[:list][:should_dos].each do |should_do_content|
+        should_do = list.should_dos.new
+        should_do.assign_attributes(should_do_content.permit(:content))
+      end
     end
+
+    # def assign_should_do(list)
+    #   should_do = list.should_do || ShouldDo.new
+    #   should_do.assign_attributes(params[:list][:should_do].permit(:content))
+    #   list.should_do = should_do
+    # end
 end
