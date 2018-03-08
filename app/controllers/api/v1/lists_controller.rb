@@ -1,8 +1,9 @@
 class API::V1::ListsController < API::V1::BaseController
   # skip_before_action :ensure_authenticated_user
+  before_action :validate_has_one_list_in_same_day, only: [:create]
 
   def index
-    @lists = @current_user.lists.includes(:should_dos)
+    @lists = @current_user.lists.order(created_at: :desc).includes(:should_dos)
   end
 
   def create
@@ -27,6 +28,16 @@ class API::V1::ListsController < API::V1::BaseController
         should_do = list.should_dos.new
         should_do.assign_attributes(should.permit(:content, :status))
       end
+    end
+
+    def validate_has_one_list_in_same_day
+      now = Time.now().to_s
+      @current_user.lists.order(created_at: :desc).each do |list|
+        if list.list_date.to_s == now
+          render_internal_server_error(message = 'dddddd')
+        end
+      end
+      return true
     end
 
 end

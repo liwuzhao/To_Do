@@ -19,8 +19,15 @@ Rails.application.routes.draw do
       resources :lists, only: [:index, :create] do
         resources :should_dos, only: [:update, :index]
       end
+      resource :today_list, only: [:show]
+
+      namespace :mine do
+        resource :me, only: [:show]
+      end
     end
   end
+
+
 
   mount Sidekiq::Web => '/sidekiq'
   mount StatusPage::Engine => '/'

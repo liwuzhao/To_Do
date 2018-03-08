@@ -1,7 +1,5 @@
 class API::V1::ShouldDosController < API::V1::BaseController
 
-  skip_before_action :ensure_authenticated_user
-
   def index
     @should_dos = ShouldDo.all
   end
@@ -14,6 +12,5 @@ class API::V1::ShouldDosController < API::V1::BaseController
       render_forbidden
     end
   end
-
 
 end
