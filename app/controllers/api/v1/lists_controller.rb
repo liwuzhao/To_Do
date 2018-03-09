@@ -34,7 +34,7 @@ class API::V1::ListsController < API::V1::BaseController
       now = Time.now().to_s
       @current_user.lists.order(created_at: :desc).each do |list|
         if list.list_date.to_s == now
-          render_internal_server_error(message = 'dddddd')
+          render_unprocessable_entity('你今天已经创建过清单了')
         end
       end
       return true
