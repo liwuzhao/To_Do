@@ -10,5 +10,6 @@ json.should_dos do
     json.id should_do.id
     json.content should_do.content
     json.status should_do.status
+    json.category should_do.category
   end
 end

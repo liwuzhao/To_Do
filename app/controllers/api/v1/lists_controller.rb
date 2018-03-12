@@ -3,7 +3,11 @@ class API::V1::ListsController < API::V1::BaseController
   before_action :validate_has_one_list_in_same_day, only: [:create]
 
   def index
-    @lists = @current_user.lists.order(created_at: :desc).includes(:should_dos)
+    @lists = @current_user
+            .lists.order(created_at: :desc)
+            .includes(:should_dos)
+            .page(params[:page])
+            .per(5)
   end
 
   def create
@@ -26,7 +30,7 @@ class API::V1::ListsController < API::V1::BaseController
     def assign_should_do(list)
       params[:list][:should_dos].each do |should|
         should_do = list.should_dos.new
-        should_do.assign_attributes(should.permit(:content, :status))
+        should_do.assign_attributes(should.permit(:content, :status, :category))
       end
     end
 
